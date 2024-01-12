@@ -37,6 +37,8 @@ describe('numberToLetter', () => {
     expect(numberToLetter(26)).toEqual('Z');
   });
   it('should not convert and throw an error', () => {
-    expect(numberToLetter(0)).toThrowError('Number should be 1 or greater');
+    expect(() => {
+      numberToLetter(0);
+    }).toThrow('Number should be 1 or greater');
   });
 });
