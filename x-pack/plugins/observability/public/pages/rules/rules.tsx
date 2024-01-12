@@ -13,15 +13,16 @@ import { FormattedMessage } from '@kbn/i18n-react';
 import { ALERTS_FEATURE_ID } from '@kbn/alerting-plugin/common';
 import { useBreadcrumbs } from '@kbn/observability-shared-plugin/public';
 
-import { AlertConsumers } from '@kbn/rule-data-utils';
+import { AlertConsumers, OBSERVABILITY_THRESHOLD_RULE_TYPE_ID } from '@kbn/rule-data-utils';
 import { useLoadRuleTypesQuery } from '@kbn/triggers-actions-ui-plugin/public';
+import { observabilityRuleCreationValidConsumers } from '../../../common/constants';
 import { RULES_LOGS_PATH, RULES_PATH } from '../../../common/locators/paths';
 import { useKibana } from '../../utils/kibana_react';
 import { usePluginContext } from '../../hooks/use_plugin_context';
 import { useGetFilteredRuleTypes } from '../../hooks/use_get_filtered_rule_types';
-import { observabilityRuleCreationValidConsumers } from '../../../common/constants';
 import { HeaderMenu } from '../overview/components/header_menu/header_menu';
 import { RulesTab } from './rules_tab';
+import { CustomThresholdPrefillOptions } from '../../components/custom_threshold/types';
 
 const GlobalLogsTab = lazy(() => import('./global_logs_tab'));
 
@@ -39,6 +40,8 @@ export function RulesPage({ activeTab = RULES_TAB_NAME }: RulesPageProps) {
   const { ObservabilityPageTemplate } = usePluginContext();
   const history = useHistory();
   const [addRuleFlyoutVisibility, setAddRuleFlyoutVisibility] = useState(false);
+  const [addRuleFlyoutWithRuleParams, setAddRuleFlyoutWithRuleParams] =
+    useState<CustomThresholdPrefillOptions>();
   const [stateRefresh, setRefresh] = useState(new Date());
 
   useBreadcrumbs([
@@ -142,6 +145,19 @@ export function RulesPage({ activeTab = RULES_TAB_NAME }: RulesPageProps) {
         </EuiFlexItem>
       </EuiFlexGroup>
 
+      {addRuleFlyoutWithRuleParams && (
+        <AddRuleFlyout
+          consumer={ALERTS_FEATURE_ID}
+          onClose={() => setAddRuleFlyoutWithRuleParams(undefined)}
+          canChangeTrigger={false}
+          ruleTypeId={OBSERVABILITY_THRESHOLD_RULE_TYPE_ID}
+          metadata={{
+            currentOptions: {
+              ...addRuleFlyoutWithRuleParams,
+            },
+          }}
+        />
+      )}
       {addRuleFlyoutVisibility && (
         <AddRuleFlyout
           consumer={ALERTS_FEATURE_ID}

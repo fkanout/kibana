@@ -316,6 +316,9 @@ const RuleAdd = ({
                 setConsumer={setSelectedConsumer}
                 useRuleProducer={useRuleProducer}
                 initialSelectedConsumer={initialSelectedConsumer}
+                closeFlyout={(meta) => {
+                  onClose(RuleFlyoutCloseReason.CANCELED, { ...meta, ...metadata });
+                }}
               />
             </EuiFlyoutBody>
             <RuleAddFooter

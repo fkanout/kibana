@@ -294,6 +294,10 @@ export default function Expressions(props: Props) {
   const preFillCriteria = useCallback(() => {
     const md = metadata;
     if (md?.currentOptions?.criteria?.length) {
+      const { timeSize: prefillTimeSize, timeUnit: prefillTimeUnit } =
+        md.currentOptions.criteria[0];
+      if (prefillTimeSize) setTimeSize(prefillTimeSize);
+      if (prefillTimeUnit) setTimeUnit(prefillTimeUnit);
       setRuleParams(
         'criteria',
         md.currentOptions.criteria.map((criterion) => ({
@@ -368,6 +372,7 @@ export default function Expressions(props: Props) {
       defaultMessage: 'Search for observability data… (e.g. host.name:host-1)',
     }
   );
+  console.log('ruleParams', ruleParams);
   return (
     <>
       <EuiTitle size="xs">

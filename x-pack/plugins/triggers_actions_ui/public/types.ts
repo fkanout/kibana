@@ -378,6 +378,7 @@ export interface RuleTypeParamsExpressionProps<
   data: DataPublicPluginStart;
   dataViews: DataViewsPublicPluginStart;
   unifiedSearch: UnifiedSearchPublicPluginStart;
+  closeFlyout?: (metadata: MetaData) => void;
 }
 
 export type RuleParamsForRules = Record<
@@ -391,6 +392,7 @@ export interface RuleTypeModel<Params extends RuleTypeParams = RuleTypeParams> {
   iconClass: string;
   documentationUrl: string | ((docLinks: DocLinksStart) => string) | null;
   validate: (ruleParams: Params) => ValidationResult;
+  closeFlyout?: () => void;
   ruleParamsExpression:
     | React.FunctionComponent<any>
     | React.LazyExoticComponent<ComponentType<RuleTypeParamsExpressionProps<Params>>>;

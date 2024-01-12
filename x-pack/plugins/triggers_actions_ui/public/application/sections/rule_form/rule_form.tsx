@@ -158,6 +158,7 @@ interface RuleFormProps<MetaData = Record<string, any>> {
   onChangeMetaData: (metadata: MetaData) => void;
   useRuleProducer?: boolean;
   initialSelectedConsumer?: RuleCreationValidConsumer | null;
+  closeFlyout?: (metadata: MetaData) => void;
 }
 
 const EMPTY_ARRAY: string[] = [];
@@ -185,6 +186,7 @@ export const RuleForm = ({
   onChangeMetaData,
   useRuleProducer,
   initialSelectedConsumer,
+  closeFlyout,
 }: RuleFormProps) => {
   const {
     notifications: { toasts },
@@ -761,6 +763,7 @@ export const RuleForm = ({
               dataViews={dataViews}
               unifiedSearch={unifiedSearch}
               onChangeMetaData={onChangeMetaData}
+              closeFlyout={closeFlyout}
             />
           </Suspense>
         </EuiErrorBoundary>

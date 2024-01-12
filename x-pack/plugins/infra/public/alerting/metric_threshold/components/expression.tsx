@@ -38,6 +38,7 @@ import { convertKueryToElasticSearchQuery } from '../../../utils/kuery';
 import { AlertContextMeta, AlertParams, MetricExpression } from '../types';
 import { ExpressionChart } from './expression_chart';
 import { ExpressionRow } from './expression_row';
+import { DeprecationCallout } from './deprecation_callout';
 const FILTER_TYPING_DEBOUNCE_MS = 500;
 
 type Props = Omit<
@@ -55,7 +56,7 @@ const defaultExpression = {
 export { defaultExpression };
 
 export const Expressions: React.FC<Props> = (props) => {
-  const { setRuleParams, ruleParams, errors, metadata } = props;
+  const { setRuleParams, ruleParams, errors, metadata, closeFlyout } = props;
   const { docLinks } = useKibanaContextForPlugin().services;
   const { source, createDerivedIndexPattern } = useSourceContext();
 
@@ -284,6 +285,7 @@ export const Expressions: React.FC<Props> = (props) => {
 
   return (
     <>
+      <DeprecationCallout ruleParams={ruleParams} closeFlyout={closeFlyout} />
       <EuiSpacer size="m" />
       <EuiText size="xs">
         <h4>
@@ -319,7 +321,6 @@ export const Expressions: React.FC<Props> = (props) => {
             </ExpressionRow>
           );
         })}
-
       <div style={{ marginLeft: 28 }}>
         <ForLastExpression
           timeWindowSize={timeSize}
@@ -329,7 +330,6 @@ export const Expressions: React.FC<Props> = (props) => {
           onChangeWindowUnit={updateTimeUnit}
         />
       </div>
-
       <EuiSpacer size="m" />
       <div>
         <EuiButtonEmpty
@@ -346,7 +346,6 @@ export const Expressions: React.FC<Props> = (props) => {
           />
         </EuiButtonEmpty>
       </div>
-
       <EuiSpacer size="m" />
       <EuiAccordion
         id="advanced-options-accordion"
@@ -382,7 +381,6 @@ export const Expressions: React.FC<Props> = (props) => {
         </EuiPanel>
       </EuiAccordion>
       <EuiSpacer size="m" />
-
       <EuiFormRow
         label={i18n.translate('xpack.infra.metrics.alertFlyout.filterLabel', {
           defaultMessage: 'Filter (optional)',
@@ -409,7 +407,6 @@ export const Expressions: React.FC<Props> = (props) => {
           />
         )}
       </EuiFormRow>
-
       <EuiSpacer size="m" />
       <EuiFormRow
         label={i18n.translate('xpack.infra.metrics.alertFlyout.createAlertPerText', {
