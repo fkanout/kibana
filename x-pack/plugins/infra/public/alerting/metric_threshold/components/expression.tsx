@@ -282,10 +282,16 @@ export const Expressions: React.FC<Props> = (props) => {
       })
       .filter((g) => typeof g === 'string') as string[];
   }, [ruleParams, groupByFilterTestPatterns]);
-
   return (
     <>
-      <DeprecationCallout ruleParams={ruleParams} closeFlyout={closeFlyout} />
+      <DeprecationCallout
+        ruleParams={ruleParams}
+        closeFlyout={closeFlyout}
+        adhocIndex={{
+          name: source?.configuration.name,
+          title: source?.configuration.metricAlias,
+        }}
+      />
       <EuiSpacer size="m" />
       <EuiText size="xs">
         <h4>

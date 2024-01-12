@@ -15,14 +15,25 @@ import { AlertFlyout } from './alert_flyout';
 interface DeprecationCalloutProps {
   ruleParams: RuleTypeParams & AlertParams;
   closeFlyout?: (metadata: Record<string, any>) => void;
+  adhocIndex: {
+    name?: string;
+    title?: string;
+  };
 }
 
-export const DeprecationCallout = ({ ruleParams, closeFlyout }: DeprecationCalloutProps) => {
+export const DeprecationCallout = ({
+  ruleParams,
+  closeFlyout,
+  adhocIndex,
+}: DeprecationCalloutProps) => {
   const [openFlyout, setOpenFlyout] = useState(false);
 
   const handleCreateCustomThresholdRule = () => {
     if (closeFlyout) {
-      const customThresholdParams = getCustomThresholdParamsFromMetricRule(ruleParams);
+      const customThresholdParams = getCustomThresholdParamsFromMetricRule({
+        ruleParams,
+        adhocIndex,
+      });
       closeFlyout({
         toCustomThresholdRule: {
           ...customThresholdParams,

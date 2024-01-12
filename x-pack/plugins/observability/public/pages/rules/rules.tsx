@@ -165,7 +165,9 @@ export function RulesPage({ activeTab = RULES_TAB_NAME }: RulesPageProps) {
           validConsumers={observabilityRuleCreationValidConsumers}
           initialSelectedConsumer={AlertConsumers.LOGS}
           onClose={(_, metadata) => {
-            setAddRuleFlyoutWithRuleParams(metadata?.toCustomThresholdRule);
+            if (metadata?.toCustomThresholdRule) {
+              setAddRuleFlyoutWithRuleParams(metadata?.toCustomThresholdRule);
+            }
             setAddRuleFlyoutVisibility(false);
           }}
           onSave={() => {

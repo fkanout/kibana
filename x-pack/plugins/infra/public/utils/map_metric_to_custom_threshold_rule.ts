@@ -21,10 +21,18 @@ export const numberToLetter = (number: number): string => {
 };
 
 export const handleMetricDataView = () => {};
-
-export const getCustomThresholdParamsFromMetricRule = (
-  ruleParams: RuleTypeParams & AlertParams
-): Record<string, unknown> => {
+interface GetCustomThresholdParamsFromMetricRule {
+  ruleParams: RuleTypeParams & AlertParams;
+  metricAlias?: string;
+  adhocIndex: {
+    name?: string;
+    title?: string;
+  };
+}
+export const getCustomThresholdParamsFromMetricRule = ({
+  ruleParams,
+  adhocIndex,
+}: GetCustomThresholdParamsFromMetricRule) => {
   const { criteria, filterQueryText, sourceId, groupBy, alertOnNoData, alertOnGroupDisappear } =
     ruleParams;
   return {
@@ -33,6 +41,23 @@ export const getCustomThresholdParamsFromMetricRule = (
     alertOnNoData,
     alertOnGroupDisappear,
     groupBy,
+    searchConfiguration: {
+      index: {
+        id: adhocIndex?.title,
+        title: adhocIndex?.title,
+        timeFieldName: '@timestamp',
+        sourceFilters: [],
+        fieldFormats: {},
+        runtimeFieldMap: {},
+        allowNoIndex: false,
+        name: `${adhocIndex?.name}: ${adhocIndex?.title}`,
+        allowHidden: false,
+        query: {
+          query: filterQueryText,
+          language: 'kuery',
+        },
+      },
+    },
     criteria: [
       {
         metrics: criteria.map((metric, index) => {
